@@ -511,9 +511,12 @@ class GaussianDiffusion(nn.Module):
         for i in range(max_iters + 1):
             with torch.no_grad():
                 if rand_fade_kernels is not None:
-                    x = torch.stack([rand_fade_kernels[:, i],
-                                     rand_fade_kernels[:, i],
-                                     rand_fade_kernels[:, i]], 1) * x
+                    ### I ADDED THIS
+                    if x.shape[1] == 3:
+                        x = torch.stack([rand_fade_kernels[:, i],rand_fade_kernels[:, i],rand_fade_kernels[:, i]], 1) * x
+                    else:
+                        x = rand_fade_kernels[:, i].unsqueeze(1) * x
+                    ### I ADDED THIS
                 else:
                     x = self.fade_kernels[i] * x
                 all_fades.append(x)
@@ -678,7 +681,7 @@ class Trainer(object):
         self.save_and_sample_every = save_and_sample_every
 
         self.batch_size = train_batch_size
-        self.image_size = diffusion_model.module.image_size
+        self.image_size = diffusion_model.image_size
         self.gradient_accumulate_every = gradient_accumulate_every
         self.train_num_steps = train_num_steps
 
@@ -695,7 +698,7 @@ class Trainer(object):
                             batch_size=train_batch_size,
                             shuffle=True,
                             pin_memory=True,
-                            num_workers=16,
+                            num_workers=0,
                             drop_last=True))
         self.opt = Adam(diffusion_model.parameters(), lr=train_lr)
 
@@ -1145,7 +1148,7 @@ class Trainer(object):
 
     def test_from_data_save_results(self):
         batch_size = 100
-        dl = data.DataLoader(self.ds, batch_size=batch_size, shuffle=False, pin_memory=True, num_workers=16,
+        dl = data.DataLoader(self.ds, batch_size=batch_size, shuffle=False, pin_memory=True, num_workers=0,
                              drop_last=True)
 
         all_samples = None
