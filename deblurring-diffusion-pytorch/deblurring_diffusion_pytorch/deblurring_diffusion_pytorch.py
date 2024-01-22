@@ -1092,9 +1092,9 @@ class Trainer(object):
         if dataset == 'mnist' or dataset == 'cifar10' or dataset == 'flower' or dataset == 'celebA' or dataset == 'AFHQ':
             print(dataset, "DA used")
             self.ds = Dataset_Aug1(folder, image_size)
-            self.dl = cycle(data.DataLoader(self.ds, batch_size=train_batch_size, shuffle=shuffle, pin_memory=True, num_workers=8,
+            self.dl = cycle(data.DataLoader(self.ds, batch_size=train_batch_size, shuffle=shuffle, pin_memory=True, num_workers=0,
                                 drop_last=True))
-
+        
         elif dataset == 'LSUN_train':
             print(dataset, "DA used")
             transform = transforms.Compose([
@@ -1104,16 +1104,15 @@ class Trainer(object):
                 transforms.Lambda(lambda t: (t * 2) - 1)
             ])
             self.ds = torchvision.datasets.LSUN(root=folder, classes=['church_outdoor_train'], transform=transform)
-            self.dl = cycle_cat(data.DataLoader(self.ds, batch_size=train_batch_size, shuffle=shuffle, pin_memory=True, num_workers=16,
+            self.dl = cycle_cat(data.DataLoader(self.ds, batch_size=train_batch_size, shuffle=shuffle, pin_memory=True, num_workers=0,
                                 drop_last=True))
 
 
         else:
             print(dataset)
             self.ds = Dataset(folder, image_size)
-            self.dl = cycle(data.DataLoader(self.ds, batch_size=train_batch_size, shuffle=shuffle, pin_memory=True, num_workers=16,
+            self.dl = cycle(data.DataLoader(self.ds, batch_size=train_batch_size, shuffle=shuffle, pin_memory=True, num_workers=0,
                                 drop_last=True))
-
         self.opt = Adam(diffusion_model.parameters(), lr=train_lr)
         self.step = 0
 
@@ -1393,7 +1392,7 @@ class Trainer(object):
         all_samples = None
         batch_size = 100
 
-        dl = data.DataLoader(self.ds, batch_size=batch_size, shuffle=False, pin_memory=True, num_workers=16,
+        dl = data.DataLoader(self.ds, batch_size=batch_size, shuffle=False, pin_memory=True, num_workers=0,
                              drop_last=True)
 
         for i, img in enumerate(dl, 0):
@@ -1462,7 +1461,7 @@ class Trainer(object):
         dataset = self.ds
         batch_size = 100
 
-        dl = data.DataLoader(self.ds, batch_size=batch_size, shuffle=False, pin_memory=True, num_workers=16,
+        dl = data.DataLoader(self.ds, batch_size=batch_size, shuffle=False, pin_memory=True, num_workers=0,
                              drop_last=True)
 
         for i, img in enumerate(dl, 0):
@@ -1517,7 +1516,7 @@ class Trainer(object):
         flatten = nn.Flatten()
 
         batch_size = 100
-        dl = data.DataLoader(self.ds, batch_size=batch_size, shuffle=False, pin_memory=True, num_workers=16,
+        dl = data.DataLoader(self.ds, batch_size=batch_size, shuffle=False, pin_memory=True, num_workers=0,
                              drop_last=True)
 
         for i, img in enumerate(dl, 0):
