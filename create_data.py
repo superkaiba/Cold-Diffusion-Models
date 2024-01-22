@@ -5,6 +5,8 @@ import shutil
 from pathlib import Path
 from PIL import Image
 
+DATA_FOLDER = '/home/mila/t/thomas.jiralerspong/scratch/ood_diffusion/cold_diffusion/data/'
+# DATA_FOLDER="./data"
 def create_folder(path):
     try:
         os.mkdir(path)
@@ -24,8 +26,8 @@ CelebA_folder = '/fs/cml-datasets/CelebA-HQ/images-128/' # change this to folder
 
 ############################################# MNIST ###############################################
 trainset = torchvision.datasets.MNIST(
-            root='./data', train=True, download=True)
-root = './root_mnist/'
+            root=DATA_FOLDER, train=True, download=True)
+root = F'{DATA_FOLDER}/root_mnist/'
 del_folder(root)
 create_folder(root)
 
@@ -40,8 +42,8 @@ for idx in range(len(trainset)):
 
 
 trainset = torchvision.datasets.MNIST(
-            root='./data', train=False, download=True)
-root = './root_mnist_test/'
+            root=DATA_FOLDER, train=False, download=True)
+root = f'{DATA_FOLDER}/mnist_test/'
 del_folder(root)
 create_folder(root)
 
@@ -57,8 +59,8 @@ for idx in range(len(trainset)):
 
 ############################################# Cifar10 ###############################################
 trainset = torchvision.datasets.CIFAR10(
-            root='./data', train=True, download=True)
-root = './root_cifar10/'
+            root=DATA_FOLDER, train=True, download=True)
+root = f'{DATA_FOLDER}/root_cifar10/'
 del_folder(root)
 create_folder(root)
 
@@ -73,8 +75,8 @@ for idx in range(len(trainset)):
 
 
 trainset = torchvision.datasets.CIFAR10(
-            root='./data', train=False, download=True)
-root = './root_cifar10_test/'
+            root=DATA_FOLDER, train=False, download=True)
+root = f'{DATA_FOLDER}/root_cifar10_test/'
 del_folder(root)
 create_folder(root)
 
@@ -89,22 +91,22 @@ for idx in range(len(trainset)):
 
 
 ############################################# CelebA ###############################################
-root_train = './root_celebA_128_train_new/'
-root_test = './root_celebA_128_test_new/'
-del_folder(root_train)
-create_folder(root_train)
+# root_train = f'{DATA_FOLDER}/root_celebA_128_train_new/'
+# root_test = f'{DATA_FOLDER}/root_celebA_128_test_new/'
+# del_folder(root_train)
+# create_folder(root_train)
 
-del_folder(root_test)
-create_folder(root_test)
+# del_folder(root_test)
+# create_folder(root_test)
 
-exts = ['jpg', 'jpeg', 'png']
-folder = CelebA_folder
-paths = [p for ext in exts for p in Path(f'{folder}').glob(f'**/*.{ext}')]
+# exts = ['jpg', 'jpeg', 'png']
+# folder = CelebA_folder
+# paths = [p for ext in exts for p in Path(f'{folder}').glob(f'**/*.{ext}')]
 
-for idx in range(len(paths)):
-    img = Image.open(paths[idx])
-    print(idx)
-    if idx < 0.9*len(paths):
-        img.save(root_train + str(idx) + '.png')
-    else:
-        img.save(root_test + str(idx) + '.png')
+# for idx in range(len(paths)):
+#     img = Image.open(paths[idx])
+#     print(idx)
+#     if idx < 0.9*len(paths):
+#         img.save(root_train + str(idx) + '.png')
+#     else:
+#         img.save(root_test + str(idx) + '.png')
