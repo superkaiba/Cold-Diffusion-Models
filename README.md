@@ -208,3 +208,13 @@ python train.py --dataset celebA --time_steps 20 --forward_process_type ‘Decol
 python test.py --dataset cifar10 --time_steps 20 --forward_process_type ‘Decolorization’ --exp_name <exp-name>  --decolor_total_remove --decolor_routine ‘Linear’ --dataset_folder <path-to-dataset> --sampling_routine x0_step_down --test_type test_data --order_seed 1
 python test.py --dataset celebA --time_steps 20 --forward_process_type ‘Decolorization’ --exp_name <exp-name>  --decolor_total_remove --decolor_routine ‘Linear’ --dataset_folder <path-to-dataset> --sampling_routine x0_step_down --test_type test_data --order_seed 1
 ```
+
+## COMMANDS
+```
+python mnist_train.py --time_steps 20 --blur_size 11 --blur_std 7.0 --blur_routine 'Constant' --sampling_routine x0_step_down --data_path /home/mila/t/thomas.jiralerspong/scratch/ood_diffusion/cold_diffusion/data/root_mnist --save_folder /home/mila/t/thomas.jiralerspong/scratch/ood_diffusion/cold_diffusion/results
+```
+
+```
+python mnist_train.py --time_steps 50 --save_folder /home/mila/t/thomas.jiralerspong/scratch/ood_diffusion/cold_diffusion/results --discrete --sampling_routine x0_step_down --train_steps 700000 --kernel_std 0.1 --fade_routine Random_Incremental --data_path /home/mila/t/thomas.jiralerspong/scratch/ood_diffusion/cold_diffusion/data/root_mnist
+```
+~/ood_diffusion/Cold-Diffusion-Models/defading-diffusion-pytorch
